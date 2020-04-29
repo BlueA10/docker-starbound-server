@@ -1,4 +1,3 @@
-# 
 ################################################################################
 # Dockerfile that builds a Starbound Server
 ################################################################################
@@ -10,21 +9,14 @@ FROM cm2network/steamcmd:root
 ENV STEAMAPPID 211820
 ENV STEAMAPPDIR /home/steam/starbound-server
 
-RUN set -x \
-	&& apt-get update \
-	&& apt-get install -y --no-install-recommends --no-install-suggests \
-		lib32gcc1 \
-		libvorbisfile3 \
-	&& apt-get clean autoclean \
-	&& apt-get autoremove -y \
-	&& rm -rf /var/lib/apt/lists/* \
-	# Create the directories that will be used as volumes under Steam user
-	&& su steam -c "mkdir -p ${STEAMAPPDIR}" \
-	&& su steam -c "mkdir -p ~/Steam"
+COPY run-prep.sh /
 
+RUN set -x \
+	/run-prep.sh \
+	&& rm -f /run-prep.sh
+	
 USER steam
 
-# Is this just a cd? May not need it.
 WORKDIR $STEAMAPPDIR
 
 # Persistant storage for the game and also the Steam folder that SteamCMD
@@ -42,7 +34,8 @@ VOLUME $STEAMAPPDIR ~/Steam
 ENTRYPOINT echo 'Updating game files.' \
 	&& if [ -z "$STEAMUSERNAME" ]; \
 	then \
-		read -p 'Please enter a Steam username to log into SteamCMD: ' "STEAMUSERNAME"; \
+		read -p 'Please enter a Steam username to log into SteamCMD: '\
+		"STEAMUSERNAME"; \
 	else \
 		echo 'SteamCMD username:' "$STEAMUSERNAME"; \
 	fi \
