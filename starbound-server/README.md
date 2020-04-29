@@ -5,6 +5,6 @@ Currently in the phase where I'm learning a lot of new things at once and changi
 
 Pull and run at your own peril.
 ```
-docker run -ti bluea10/starbound-server:latest
+docker run -ti -p 21025:21025 bluea10/starbound-server:latest
 ```
 You can detach after succesfully logging in to SteamCMD.

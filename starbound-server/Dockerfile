@@ -12,8 +12,10 @@ COPY run-prep.sh /
 COPY --chown=steam util/ /home/steam/util/
 
 RUN set -x \
+	&& chmod u+x /run-prep.sh \
 	&& /run-prep.sh \
-	&& rm -f /run-prep.sh
+	&& rm -f /run-prep.sh \
+	&& su steam -c "chmod u+x ~/util/*.sh"
 	
 USER steam
 
