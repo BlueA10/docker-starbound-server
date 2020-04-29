@@ -1,0 +1,43 @@
+version: "3"
+
+# 
+
+services:
+    starbound-server:
+        container_name: starbound-server
+        image: bluea10/starbound-server:latest
+        # TODO: Double-check networking and ports
+        # ports:
+        #     - "21025:21024/tcp"
+        # env_file:
+        # Environment variables file to pass config options.
+        # TODO: Implement
+        #    - starbound-variables.env
+        #    - starbound-workshop-items.env
+        # volumes:
+        # TODO
+        # I don't think we need this for starbound-server, except for configs
+        # if they can be mounted externally despite the build itself noting
+        # creating volumes.
+        
+        # TODO: Investigate best restart option
+        restart: unless-stopped
+    
+    starrypy3k:
+        container_name: starrypy3k
+        # TODO: Figure out how to build from Github repo as there is no image on
+        # Docker Hub to pull.
+        # build: 
+        # image: starrypy3k
+        # TODO: double-check networking and ports
+        # ports:
+        #     - "21025:21025/tcp"
+        #     - "21024:21024/tcp"
+        # env_file:
+        # TODO: implement env variables passing system
+           - starrypy3k-variables.env
+        # volumes:
+        # TODO: might need one for configs?
+        
+        # TODO: Investigate best restart option
+        restart: unless-stopped
