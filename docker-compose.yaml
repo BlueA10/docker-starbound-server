@@ -1,43 +1,53 @@
-version: "3"
+version: "3.1"
 
-# 
+secrets:
+    steam_username:
+        file: './starbound-server/steam_username.txt'
+    steam_password:
+        file: './starbound-server/steam_password.txt'
 
 services:
     starbound-server:
         container_name: starbound-server
+        # Evaluating this combination of build and image line. Can remove build
+        # line and image should pull from the repo which is updated from the
+        # repository anyway, but I'm hoping by including the Build line that
+        # it will try to build from an existing cloned repo first.
+        build: ./starbound-server
         image: bluea10/starbound-server:latest
-        # TODO: Double-check networking and ports
-        # ports:
-        #     - "21025:21024/tcp"
+        # /
+        ports:
+            - "21025:21024/tcp"
+        # TODO: Investigate uses of env files and other env variables.
         # env_file:
-        # Environment variables file to pass config options.
-        # TODO: Implement
         #    - starbound-variables.env
         #    - starbound-workshop-items.env
-        # volumes:
-        # TODO
-        # I don't think we need this for starbound-server, except for configs
-        # if they can be mounted externally despite the build itself noting
-        # creating volumes.
-        
-        # TODO: Investigate best restart option
+        # TODO: Additionally, investigate Docker configs.
+        environment:
+            STEAM_USERNAME_FILE: '/run/secrets/steam_username'
+            STEAM_PASSWORD_FILE: '/run/secrets/steam_password'
+        secrets:
+            - source: steam_username
+              uid: '1000'
+              gid: '1000'
+              mode: 0440
+            - source: steam_password
+              uid: '1000'
+              gid: '1000'
+              mode: 0440
+        stop_signal: SIGINT
         restart: unless-stopped
     
-    starrypy3k:
-        container_name: starrypy3k
+    # TODO: starrypy3k 
+    # starrypy3k:
+        # container_name: starrypy3k
         # TODO: Figure out how to build from Github repo as there is no image on
         # Docker Hub to pull.
         # build: 
         # image: starrypy3k
-        # TODO: double-check networking and ports
         # ports:
         #     - "21025:21025/tcp"
-        #     - "21024:21024/tcp"
         # env_file:
         # TODO: implement env variables passing system
-           - starrypy3k-variables.env
-        # volumes:
-        # TODO: might need one for configs?
-        
-        # TODO: Investigate best restart option
-        restart: unless-stopped
+           # - starrypy3k-variables.env
+        # restart: unless-stopped
