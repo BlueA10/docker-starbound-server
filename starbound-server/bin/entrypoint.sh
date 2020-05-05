@@ -45,7 +45,7 @@ echo 'Update complete.'
 
 echo 'Launching Starbound Server...'
 cd "${STEAMAPPDIR}/linux"
-./starbound_server
+exec ./starbound_server
 
 # TODO: Figure out a way to get workshop items added to this.
 # It's looking like a Docker-Compose file may handle that much better.
