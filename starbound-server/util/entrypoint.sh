@@ -21,7 +21,7 @@ fi
 
 if [[ -z "${STEAM_PASSWORD}" ]] && [[ ! -s "${STEAM_PASSWORD_FILE}" ]]
 then
-	echo -e 'No Steam password supplied, SteamCMD will prompt for one.' \
+	echo -e 'No Steam password supplied. SteamCMD will prompt for one.' \
 		"\n"'If using Docker Compose this will cause the container' \
 		'to abort with an error.'
 fi
@@ -37,7 +37,7 @@ echo 'Updating game files with SteamCMD.'
 "${STEAMCMDDIR}/steamcmd.sh" \
 	+login \
 		"${STEAM_USERNAME:-$(<"${STEAM_USERNAME_FILE}")}" \
-		"${STEAM_PASSWORD:-$(<"${STEAM_PASSWORD_FILE}")}" \
+		"${STEAM_PASSWORD:-$(<"${STEAM_PASSWORD_FILE:-/dev/null}")}" \
 	+force_install_dir "${STEAMAPPDIR}" \
 	+app_update "${STEAMAPPID}" \
 	+quit
