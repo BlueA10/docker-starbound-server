@@ -14,11 +14,31 @@ You can detach after succesfully logging in to SteamCMD.
 
 Alternatively, you may pass STEAM_USERNAME and STEAM_PASSWORD environment variables to have them entered into SteamCMD for you. However, I recommend against doing so or at least passing them in via env files instead. This will not keep the info secret as I believe it will still be visible in a Docker history log or ps somewhere, but will at least keep it off your command line. Steam Guard will also still require manual entry of the 2FA code directly into SteamCMD if enabled.
 
-The recommended method for handling credentials will be through the docker-compose setup once complete. Current vision of this is keeping credentials in steam_username.txt and steam_password.txt files, which will be passed to the container encrypted via Docker Secrets using configuration in the docker-compose file.
+To pass environment variables directly, modify the above command with the -e option like so:
+
+```bash
+docker run -ti -p 21025:21025 -e STEAM_USERNAME=<username> -e STEAM_PASSWORD=<password> bluea10/starbound-server:latest
+```
+
+To do so via env file instead, use the --env-file option like so:
+
+```bash
+docker run -ti -p 21025:21025 --env-file steam-credentials.env bluea10/starbound-server:latest
+```
+
+Where 'steam-credentials.env' is an arbitrarily-named text file containing:
+
+```bash
+# Comments are allowed
+STEAM_USERNAME=<username>
+STEAM_PASSWORD=<password>
+```
+
+The recommended method for handling credentials will be through the docker-compose setup once complete. Current vision of this is keeping credentials in steam_username.txt and steam_password.txt files or in a single credentials file like the env file example above, which will be passed to the container encrypted via Docker Secrets using configurations in the docker-compose file.
 
 I will be researching to see if there is an easy and secure alternative to keeping them in plain-text text files on the host machine, as that is still a concern I have, but as long as it can be passed to the container via Docker Secrets and docker-compose regardless of how it's stored on the host machine, I am comfortable with the Docker side of things.
 
-## Docker Compose file
+## Docker Compose
 
 ### 2020-05-03
 
