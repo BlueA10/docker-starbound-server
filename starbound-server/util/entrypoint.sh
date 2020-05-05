@@ -13,6 +13,7 @@ then
 	read -p 'Please enter a Steam username to log into SteamCMD: ' \
 		'STEAM_USERNAME'
 	if [[ -z "${STEAM_USERNAME}" ]]
+	then
 		echo 'No username entered! Aborting script.' >&2
 		exit 1
 	fi
@@ -20,11 +21,12 @@ fi
 
 if [[ -z "${STEAM_PASSWORD}" ]] && [[ ! -s "${STEAM_PASSWORD_FILE}" ]]
 then
-	echo 'No Steam password given, SteamCMD will prompt for one.' \
-		'\nIf using Docker-Compose this will cause the container' \
+	echo -e 'No Steam password supplied, SteamCMD will prompt for one.' \
+		"\n"'If using Docker Compose this will cause the container' \
 		'to abort with an error.'
 fi
-echo 'Updating game files with SteamCMD...'
+
+echo 'Updating game files with SteamCMD.'
 
 # Login to SteamCMD and install the game. In this case, Starbound.
 # The expansions on the login argument will expand to STEAM_USERNAME and
