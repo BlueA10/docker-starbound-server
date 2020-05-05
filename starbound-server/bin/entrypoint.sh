@@ -26,7 +26,7 @@ then
 		'to abort with an error.'
 fi
 
-echo 'Updating game files with SteamCMD.'
+echo 'Updating game files with SteamCMD...'
 
 # Login to SteamCMD and install the game. In this case, Starbound.
 # The expansions on the login argument will expand to STEAM_USERNAME and
