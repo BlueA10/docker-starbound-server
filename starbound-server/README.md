@@ -33,9 +33,22 @@ I'll be researching on if the restart loop can be avoided.
 
 To use the docker-compose file, clone the repo and then create the following two files:
 
-```
+```bash
 ./starbound-server/steam_username.txt
 ./starbound-server/steam_password.txt
 ```
 
 Enter the steam account credentials to log in to SteamCMD with into these files to have them passed to the container's SteamCMD via Docker Secrets.
+
+The docker-compose file currently will not work with Steam Guard enabled in either capacity.
+
+Afterwards, cd to the repo's base directory and do:
+
+```bash
+docker-compose up
+```
+To shut down the server, cd to the repo again and do:
+
+```bash
+docker-compose down
+```
